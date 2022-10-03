@@ -1,0 +1,53 @@
+#include "../builtins.h"
+
+int run_echo(t_parse *data)
+{
+    int i;
+
+    i = 0;
+    if (!is_identical(data->cmd, ECHO))
+        return (FALSE);
+    while(data->arg && data->arg[i])
+    {
+        printf("%s", data->arg[i]);
+        i++;
+        if (data->arg && data->arg[i])
+            printf(" ");
+    }
+    if (!is_identical(data->arg[0], ECHO_N_FLAG))
+        printf("\n");
+    return (TRUE);
+}
+
+int run_cd(t_parse *data)
+{
+    if (!is_identical(data->cmd, CD))
+        return (FALSE);
+    if (chdir(*data->arg) == ERROR_RETURNED)
+        raise_error(NULL, *data->arg);
+    return (TRUE);
+}
+
+int run_pwd(t_parse *data)
+{
+    if (!is_identical(data->cmd, PWD))
+        return (FALSE);
+    printf("%s\n", getcwd(NULL, 0));
+    return (TRUE);
+}
+
+int run_unset(t_parse *data)
+{
+    if (!is_identical(data->cmd, UNSET))
+        return (FALSE);
+    printf("%s\n", data->env[0]);
+    return (TRUE);
+}
+
+int run_export(t_parse *data)
+{
+    if (!is_identical(data->cmd, EXPORT))
+        return (FALSE);
+    printf("its a builtin: export\n");
+    return (TRUE);
+}
