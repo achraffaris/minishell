@@ -21,7 +21,10 @@ int main(int ac, char **av, char **env)
     t_lexer  *lexer;
     t_token *token = NULL;
     t_token *tmp;
-    t_parse *parse; 
+    t_parse *parse;
+    t_env   *env_list;
+
+    env_list = setup_env(env);
     char *str = NULL;
     lexer = malloc(sizeof(t_lexer));
     while(1)
@@ -45,7 +48,7 @@ int main(int ac, char **av, char **env)
                 free(parse->rdr);
                 parse->rdr = NULL;
             }
-            parse->env = copy_env(env);
+            parse->env = env_list;
             //printf("%s------\n",parse->cmd);
             execution(parse);
             //t_parse *tmp1 = parse;

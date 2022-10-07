@@ -1,6 +1,6 @@
 src = *.c ./libft/*.c ./execution/*/*.c ./execution/*/*/*.c ./execution/*.c
 minishell = minishell
-FLAGS =  -lreadline -Wall -Wextra -Werror -fsanitize=address -g3
+FLAGS = -g3 -Wall -Wextra -Werror -L/usr/include -lreadline
 CC = cc
 
 all : minishell

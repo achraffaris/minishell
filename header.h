@@ -32,13 +32,19 @@ typedef struct s_rdr
 //     struct s_herdoc *next;
 // }
 
+typedef struct s_env
+{
+    char            *key;
+    char            *value;
+    struct s_env    *next;
+} t_env;
+
 typedef struct s_parse
 {
-    char *cmd;
-    char **arg;
-    t_rdr *rdr;
-    char **env;
-    int     i;
+    char    *cmd;
+    char    **arg;
+    t_rdr   *rdr;
+    t_env   *env;
     struct s_parse *next;
 } t_parse;
 
