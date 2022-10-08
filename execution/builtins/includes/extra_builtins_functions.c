@@ -7,9 +7,10 @@ int run_env(t_parse *data)
     current = data->env;
     if (!is_identical(data->cmd, ENV))
         return (FALSE);
-    while (current && current->next)
+    while (current)
     {
-        printf("%s=%s\n", current->key, current->value);
+        if (current->value)
+            printf("%s\n", current->key);
         current = current->next;
     }
     return (TRUE);
@@ -19,6 +20,6 @@ int run_exit(t_parse *data)
 {
     if (!is_identical(data->cmd, EXIT))
         return (FALSE);
-    printf("its a builtin: exit\n");
+    exit(0);
     return (TRUE);
 }

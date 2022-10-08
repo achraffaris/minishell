@@ -45,10 +45,14 @@ char    *extract_env_value(char *item)
     char    *env_value;
     int     j;
     int     i;
+    int     len;
 
+    len = substring_length(item, '=', AFTER);
     i = 0;
     j = 0;
-    env_value = malloc(sizeof(char) * (substring_length(item, '=', AFTER) + 1));
+    if (len == NONE)
+        return (NULL);
+    env_value = malloc(sizeof(char) * (len + 1));
     if (!env_value)
         raise_error("Memory Allocation Failed!", "malloc");
     while (item[i] && item[i] != '=')

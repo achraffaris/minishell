@@ -29,6 +29,7 @@ int main(int ac, char **av, char **env)
     lexer = malloc(sizeof(t_lexer));
     while(1)
     {
+        printf("-------------------- BEGIN ------------------ \n");
         str = readline("minishell >$ ");
         if (str[0] != '\0')
         {

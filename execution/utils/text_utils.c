@@ -42,6 +42,8 @@ int substring_length(char *str, char to_stop, int mode)
 
     i = 0;
     index = get_index_or_none(str, to_stop);
+    if (index == NONE)
+        return (NONE);
     if (mode == BEFORE)
         return (index + 1);
     else

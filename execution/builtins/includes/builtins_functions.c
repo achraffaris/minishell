@@ -6,11 +6,14 @@ int run_echo(t_parse *data)
     int n_flag_found;
 
     i = 0;
-    n_flag_found = is_identical(data->arg[0], ECHO_N_FLAG);
+    n_flag_found = FALSE;
     if (!is_identical(data->cmd, ECHO))
         return (FALSE);
-    if (n_flag_found)
+    if (data->arg && is_identical(data->arg[0], ECHO_N_FLAG))
+    {
+        n_flag_found = TRUE;
         i++;
+    }
     while(data->arg && data->arg[i])
     {
         printf("%s", data->arg[i]);
@@ -58,8 +61,27 @@ int run_unset(t_parse *data)
 
 int run_export(t_parse *data)
 {
+    t_env   *env;
+    char    *key;
+    int     i;
+
+    i = 0;
     if (!is_identical(data->cmd, EXPORT))
         return (FALSE);
-    printf("its a builtin: export\n");
+    if (!data->arg)
+        print_sorted_env_items(data->env);
+    else
+    {
+        while (data->arg[i])
+        {
+            key = extract_env_key(data->arg[i]);
+            env = get_env_item_or_none(key, data->env);
+            if (!env)
+                add_env_item(&data->env, data->arg[i]);
+            else
+                update_env_item(env, data->arg[i]);
+            i++;
+        }
+    }
     return (TRUE);
 }

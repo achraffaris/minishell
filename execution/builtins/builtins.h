@@ -12,9 +12,6 @@
 #define FALSE 0
 #define TRUE 1
 
-#define UNSET_OPERATION 1
-#define EXPORT_OPERATION 2
-
 #define NULL_CHARACTER '\0'
 
 #define ECHO_N_FLAG "-n"
@@ -29,11 +26,17 @@ int     run_echo(t_parse *data);
 int     run_cd(t_parse *data);
 int     run_pwd(t_parse *data);
 int     run_unset(t_parse *data);
-int     run_echo(t_parse *data);
+int     run_export(t_parse *data);
 int     run_env(t_parse *data);
 int     run_exit(t_parse *data);
 int     env_key_valid(char *env_key);
 
 void    remove_env_item(char *item, t_env *env);
+void    add_env_item(t_env **head, char *item);
+void    print_sorted_env_items(t_env *env);
+t_env   *get_env_item_or_none(char *key, t_env *env);
+char    *extract_env_key(char *item);
+char    *extract_env_value(char *item);
+void    update_env_item(t_env *item, char *arg);
 
 #endif

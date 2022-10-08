@@ -32,3 +32,41 @@ void    remove_env_item(char *item, t_env *env)
         current = current->next;
     }
 }
+
+void    print_sorted_env_items(t_env *env)
+{
+    t_env *current;
+
+    current = env;
+    while(current)
+    {
+        if (current->value)
+            printf("declare -x %s=\"%s\"\n", current->key, current->value);
+        else
+            printf("declare -x %s\n", current->key);
+        current = current->next;
+    }
+}
+
+t_env   *get_env_item_or_none(char *key, t_env *env)
+{
+    t_env *current;
+
+    current = env;
+    while (current)
+    {
+        if (is_identical(key, current->key))
+            return (current);
+        current = current->next;
+    }
+    return (NULL);
+}
+
+void    update_env_item(t_env *item, char *arg)
+{
+    char *value;
+
+    value = extract_env_value(arg);
+    free(item->value);
+    item->value = value;
+}
