@@ -35,16 +35,19 @@ void    remove_env_item(char *item, t_env *env)
 
 void    print_sorted_env_items(t_env *env)
 {
-    t_env *current;
+    t_env *env_copy;
+    t_env *min;
 
-    current = env;
-    while(current)
+    env_copy = duplicate_env(env);
+    min = get_next_min_item(env_copy);
+    while(min)
     {
-        if (current->value)
-            printf("declare -x %s=\"%s\"\n", current->key, current->value);
+        if (min->value)
+            printf("declare -x %s=\"%s\"\n", min->key, min->value);
         else
-            printf("declare -x %s\n", current->key);
-        current = current->next;
+            printf("declare -x %s\n", min->key);
+        remove_env_item(min->key, env_copy);
+        min = get_next_min_item(env_copy);
     }
 }
 

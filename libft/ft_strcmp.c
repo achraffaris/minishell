@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:52:58 by afaris            #+#    #+#             */
-/*   Updated: 2021/11/14 17:26:58 by afaris           ###   ########.fr       */
+/*   Created: 2021/11/10 20:22:56 by afaris            #+#    #+#             */
+/*   Updated: 2021/11/20 12:58:03 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*cp;
-	int		i;
+	size_t				i;
+	unsigned char		*str1;
+	unsigned char		*str2;
 
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
 	i = 0;
-	cp = malloc(sizeof(char) * ft_strlen(s1) + 1);
-	if (!cp)
-		return (NULL);
-	if (!s1)
+	while ((str1[i] || str2[i]))
 	{
-		free(cp);
-		return (NULL);
-	}
-	while (s1[i])
-	{
-		cp[i] = s1[i];
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
 		i++;
 	}
-	cp[i] = '\0';
-	return (cp);
+	return (0);
 }

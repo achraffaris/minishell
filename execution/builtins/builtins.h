@@ -38,5 +38,8 @@ t_env   *get_env_item_or_none(char *key, t_env *env);
 char    *extract_env_key(char *item);
 char    *extract_env_value(char *item);
 void    update_env_item(t_env *item, char *arg);
+t_env   *duplicate_env(t_env *env);
+int     env_size(t_env *env);
+t_env   *get_next_min_item(t_env *env);
 
 #endif
