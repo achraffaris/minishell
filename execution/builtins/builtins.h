@@ -31,7 +31,7 @@ int     run_env(t_parse *data);
 int     run_exit(t_parse *data);
 int     env_key_valid(char *env_key);
 
-void    remove_env_item(char *item, t_env *env);
+void    remove_env_item(char *item, t_env *env, t_env **head);
 void    add_env_item(t_env **head, char *item);
 void    print_sorted_env_items(t_env *env);
 t_env   *get_env_item_or_none(char *key, t_env *env);
@@ -41,5 +41,6 @@ void    update_env_item(t_env *item, char *arg);
 t_env   *duplicate_env(t_env *env);
 int     env_size(t_env *env);
 t_env   *get_next_min_item(t_env *env);
+int     all_env_items_printed(t_env *env);
 
 #endif

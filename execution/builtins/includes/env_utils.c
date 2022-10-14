@@ -80,6 +80,7 @@ void    add_env_item(t_env **head, char *item)
         current = current->next;
     new->key = extract_env_key(item);
     new->value = extract_env_value(item);
+    new->is_printed = FALSE;
     new->next = NULL;
     if (!(*head))
         *head = new;

@@ -47,54 +47,43 @@ int env_size(t_env *env)
 int item_is_min(char *key, t_env *env)
 {
     t_env *current;
-    int i;
 
     current = env;
-    i = 0;
     if (!current->next)
         return (TRUE);
     while (current)
     {
-        if (ft_strcmp(key, current->key) < 0)
-            i++;
+        if (current->is_printed == FALSE && strcmp(key, current->key) > 0)
+            return (FALSE);
         current = current->next;
     }
-    if (i != 1)
-        return (FALSE);
     return (TRUE);
 }
 
-void    rotate_env(t_env *env, t_env **head)
+int all_env_items_printed(t_env *env)
 {
-    t_env *old_top;
-    t_env *new_top;
-    t_env *current;
-
-    current = env;
-    old_top = env;
-    new_top = env->next;
-    if (current && current->next)
-    {
-        while (current && current->next)
-            current = current->next;
-        current->next = old_top;
-        old_top->next = NULL;
-        *head = new_top;
-    }
-}
-
-t_env    *get_next_min_item(t_env *env)
-{
-    int size;
     t_env *current;
 
     current = env;
     while (current)
     {
-        if (item_is_min(current->key, env))
+        if (current->is_printed == FALSE)
+            return (FALSE);
+        current = current->next;
+    }
+    return (TRUE);
+}
+
+t_env    *get_next_min_item(t_env *env)
+{
+    t_env *current;
+
+    current = env;
+    while (current)
+    {
+        if (current->is_printed == FALSE && item_is_min(current->key, env))
             return (current);
-        rotate_env(env, &env);
-        current = env;
+        current = current->next;
     }
     return (NULL);
 }

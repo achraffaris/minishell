@@ -53,7 +53,7 @@ int run_unset(t_parse *data)
     while (data->arg && data->arg[i])
     {
         if (env_key_valid(data->arg[i]))
-            remove_env_item(data->arg[i], data->env);
+            remove_env_item(data->arg[i], data->env, &data->env);
         i++;
     }
     return (TRUE);
