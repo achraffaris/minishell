@@ -55,8 +55,9 @@ void    remove_env_item(char *item, t_env *env, t_env **head)
 void    print_sorted_env_items(t_env *env)
 {
     t_env *min;
-    
+    t_env *current;
     min = get_next_min_item(env);
+    current = env;
     while(min)
     {
         if (min->value)
@@ -65,6 +66,11 @@ void    print_sorted_env_items(t_env *env)
             printf("declare -x %s\n", min->key);
         min->is_printed = TRUE;
         min = get_next_min_item(env);
+    }
+    while (current)
+    {
+        current->is_printed = FALSE;
+        current = current->next;
     }
 }
 
