@@ -30,8 +30,10 @@ int run_cd(t_parse *data)
 {
     if (!is_identical(data->cmd, CD))
         return (FALSE);
-    if (chdir(*data->arg) == ERROR_RETURNED)
+    if (data->arg && chdir(*data->arg) == ERROR_RETURNED)
         raise_error(NULL, *data->arg);
+    else if (!data->arg && chdir(getenv("HOME")) == ERROR_RETURNED)
+        raise_error(NULL, NULL);
     return (TRUE);
 }
 

@@ -10,7 +10,7 @@ int run_env(t_parse *data)
     while (current)
     {
         if (current->value)
-            printf("%s\n", current->key);
+            printf("%s=%s\n", current->key, current->value);
         current = current->next;
     }
     return (TRUE);
