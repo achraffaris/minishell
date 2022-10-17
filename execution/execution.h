@@ -14,4 +14,11 @@ int     substring_length(char *str, char to_stop, int mode);
 t_env   *setup_env(char **env);
 
 
+typdef struct execution
+{
+    t_parse *cmds;
+    int     **pipes;
+    int     ncmds;
+}   t_exec;
+
 #endif
