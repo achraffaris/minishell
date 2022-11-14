@@ -6,7 +6,7 @@
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 20:52:58 by afaris            #+#    #+#             */
-/*   Updated: 2021/11/14 17:26:58 by afaris           ###   ########.fr       */
+/*   Updated: 2022/11/08 22:08:37 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
+	if (!s1)
+		return (NULL);
 	cp = malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!cp)
 		return (NULL);

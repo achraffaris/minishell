@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   cd_extra_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:06:39 by afaris            #+#    #+#             */
-/*   Updated: 2022/11/08 16:14:39 by afaris           ###   ########.fr       */
+/*   Created: 2022/11/09 18:27:05 by afaris            #+#    #+#             */
+/*   Updated: 2022/11/10 18:38:57 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../builtins.h"
 
-int	ft_isalnum(int c)
+void	print_getcwd(void)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+	}
+}
+
+void	raise_and_quit(char *old)
+{
+	raise_error(NULL, "cd", EXIT_FAILURE, FALSE);
+	if (old)
+		free(old);
+	return ;
 }

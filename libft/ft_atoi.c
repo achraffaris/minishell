@@ -6,9 +6,11 @@
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 20:01:52 by afaris            #+#    #+#             */
-/*   Updated: 2021/11/23 18:03:12 by afaris           ###   ########.fr       */
+/*   Updated: 2022/11/08 22:11:48 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 static int	ignore_spaces(const char *str)
 {

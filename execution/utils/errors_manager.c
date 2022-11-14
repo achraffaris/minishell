@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   errors_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:06:39 by afaris            #+#    #+#             */
-/*   Updated: 2022/11/08 16:14:39 by afaris           ###   ########.fr       */
+/*   Created: 2022/11/06 23:19:11 by afaris            #+#    #+#             */
+/*   Updated: 2022/11/06 23:19:54 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../execution.h"
 
-int	ft_isalnum(int c)
+void	raise_error(char *err_msg, char *err_src,
+			int exit_code, int should_exit)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (err_msg)
+	{
+		ft_putstr_fd(err_src, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	else
+		perror(err_src);
+	if (should_exit)
+		exit(exit_code);
+	g_exitm = exit_code;
 }

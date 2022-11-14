@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strjoinx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 20:30:44 by afaris            #+#    #+#             */
-/*   Updated: 2022/11/06 23:30:39 by afaris           ###   ########.fr       */
+/*   Updated: 2022/11/06 23:31:49 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-int	ft_strlen2(char *s)
+int	ft_strlen3(char *s)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	ft_strlen2(char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoinx(char *s1, char *s2)
 {
 	char	*str;
 	int		len;
@@ -37,17 +37,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	str = malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (0);
-	while (i < ft_strlen2(s1))
+	while (i < ft_strlen3(s1))
 	{
 		str[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while (j < ft_strlen2(s2))
+	while (j < ft_strlen3(s2))
 	{
 		str[i++] = s2[j++];
 	}
 	str[i] = '\0';
-	free(s1);
 	return (str);
 }

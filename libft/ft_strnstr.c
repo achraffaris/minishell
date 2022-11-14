@@ -6,7 +6,7 @@
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 23:05:22 by afaris            #+#    #+#             */
-/*   Updated: 2021/11/14 18:40:37 by afaris           ###   ########.fr       */
+/*   Updated: 2022/11/06 23:32:09 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_matching(char *str, char *sub, size_t len)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (str[i] && str[i] == sub[i] && i < len)
 	{

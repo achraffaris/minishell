@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:06:39 by afaris            #+#    #+#             */
-/*   Updated: 2022/11/08 16:14:39 by afaris           ###   ########.fr       */
+/*   Created: 2022/11/09 22:26:54 by afaris            #+#    #+#             */
+/*   Updated: 2022/11/09 22:27:20 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "header.h"
 
-int	ft_isalnum(int c)
+void	signal_listener(t_lexer *lexer)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (WIFSIGNALED(g_exitm))
+	{
+		lexer->here_doc_status = KO;
+		g_exitm = EXIT_FAILURE;
+	}
 }

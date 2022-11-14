@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   builtin_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 20:06:39 by afaris            #+#    #+#             */
-/*   Updated: 2022/11/08 16:14:39 by afaris           ###   ########.fr       */
+/*   Created: 2022/11/06 23:07:56 by afaris            #+#    #+#             */
+/*   Updated: 2022/11/09 18:02:10 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtins.h"
 
-int	ft_isalnum(int c)
+int	run_as_builtin(t_parse *data, t_env **env)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (run_echo(data)
+		|| run_cd(data, env)
+		|| run_pwd(data, *env)
+		|| run_unset(data, env)
+		|| run_env(data, env)
+		|| run_exit(data)
+		|| run_export(data, env))
+		return (TRUE);
+	return (FALSE);
 }

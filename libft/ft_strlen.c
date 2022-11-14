@@ -6,11 +6,12 @@
 /*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 20:04:16 by afaris            #+#    #+#             */
-/*   Updated: 2021/11/12 11:36:58 by afaris           ###   ########.fr       */
+/*   Updated: 2022/11/08 22:08:44 by afaris           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {

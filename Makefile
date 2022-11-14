@@ -1,12 +1,13 @@
 src = *.c ./libft/*.c ./execution/*/*.c ./execution/*/*/*.c ./execution/*.c
 minishell = minishell
-FLAGS = -g3 -Wall -Wextra -Werror -L/usr/include -lreadline
+FLAGS =  -lreadline -L/Users/afaris/.brew/Cellar/readline/8.2.1/lib -I/Users/afaris/.brew/Cellar/readline/8.2.1/include -Wall -Wextra -Werror
 CC = cc
 
 all : minishell
 	
 $(minishell): $(src)
-	@$(CC) $(FLAGS) $(RDLINE) $(src) -o minishell
+	@$(CC) $(FLAGS) $(RDLINE) $(src) -o minishell -lreadline
+	@stty -echoctl	
 	@tput setaf 2; echo "MINISHELL IS READY"
 
 clean :

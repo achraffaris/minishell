@@ -1,113 +1,116 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaris <afaris@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/27 08:44:28 by schoukou          #+#    #+#             */
+/*   Updated: 2022/11/10 16:07:48 by afaris           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 #include "execution/execution.h"
+#include <signal.h>
 
-void add_back(t_token **list, t_token *tmp)
+void	my_handler(int signum)
 {
-    if (*list == NULL)
-        (*list) = tmp;
-    else
-    {
-        t_token *tmp1 = *list;
-        while(tmp1->next != NULL)
-            tmp1 = tmp1->next;
-        tmp1->next = tmp;
-    } 
+	g_exitm = 1;
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-int main(int ac, char **av, char **env)
+int	bigger(int a, int c)
 {
-    (void) ac;
-    (void) av;
-    t_lexer  *lexer;
-    t_token *token = NULL;
-    t_token *tmp;
-    t_parse *parse;
-    t_env   *env_list;
+	if (a > c)
+		return (a);
+	return (c);
+}
 
-    env_list = setup_env(env);
-    char *str = NULL;
-    lexer = malloc(sizeof(t_lexer));
-    while(1)
-    {
-        str = readline("minishell >$ ");
-        if (str[0] != '\0')
-        {
-            lexer = init_lexer(str, lexer);
-            while ((tmp = get_next_token(lexer)) != NULL)
-                add_back(&token, tmp);
-            if ((token) != NULL)
-            {
-                parse = init_parsing(&token, lexer);
-            }
-            if(!token)
-            {
-                free(parse->cmd);
-                parse->cmd = NULL;
-                free(parse->arg);
-                parse->arg = NULL;
-                free(parse->rdr);
-                parse->rdr = NULL;
-            }
-            parse->env = env_list;
-            //printf("%s------\n",parse->cmd);
-            execution(parse);
-            //t_parse *tmp1 = parse;
-            //printf("%s------\n",tmp1->cmd);
-            if (lexer->flg_error == 0)
-            {
-                /*
-                while(tmp1)
-                {
-                    if (tmp1->cmd != NULL)
-                    {
-                        printf("cmd = %s\n", tmp1->cmd);
-                        free(tmp1->cmd);
-                    }
-                    if (tmp1->arg != NULL)
-                    {
-                        int i = 0;
-                        while(tmp1->arg[i])
-                        {
-                            printf("arg = %s\n", tmp1->arg[i]);
-                            i++;
-                        }
-                    }
-                    if (tmp1->rdr != NULL)
-                    {
-                        t_rdr *r = tmp1->rdr;
-                        while(r)
-                        {
-                            printf("rdr->type = %d, rdr->value = %s\n", r->type, r->value);
-                            r = r->next;
-                        }
-                    }
-                    printf("-----------------------\n");
-                    tmp1 = tmp1->next;
-                }*/
-            }
-            else if (lexer->flg_error == 1)
-                printf("syntax_error\n");
-            if (ft_strlen(str) > 0)
-                add_history(str);
-            tmp = token;
-            while(tmp)
-            {
-                token = token->next;
-                free(tmp);
-                tmp = token;
-            }
-            // tmp1 = parse;
-            // while(tmp1)
-            // {
-            //     if (tmp1->cmd != NULL && tmp1->cmd[0] != '\0')
-            //     {
-            //         free(tmp1->cmd);
-            //     }
-            //     tmp1 = tmp1->next;
-            // }
-        }
-       
+void	after_parse(t_parse *parse, t_token *token, t_lexer *lexer)
+{
+	if (lexer->flg_error == 1)
+	{
+		write(2, "syntax_error\n", 14);
+		g_exitm = 258;
+	}
+	if (parse != NULL)
+	{
+		lexer->here_doc_status = OK;
+		herdoc_handler(parse, lexer);
+	}
+	if (!lexer->flg_error && parse != NULL && lexer->here_doc_status == OK)
+		rdr_create_files(&parse, lexer);
+	if (parse)
+		cmds_initialization(parse);
+	if (parse != NULL && lexer->flg_error == 0 && lexer->here_doc_status == OK)
+		execution(parse, lexer->_env);
+	else
+		free_all(parse, NULL);
+	ft_free_list(token);
+}
 
-    }
-    return 0;
+void	init_minishell(t_lexer *lexer, char *str,
+						t_parse *parse, t_token *token)
+{
+	t_token	*tmp;
+
+	if (!str)
+	{
+		printf("exit\n");
+		exit(g_exitm);
+	}
+	if (str[0] != '\0')
+	{
+		add_history(str);
+		lexer = init_lexer(str, lexer);
+		token = NULL;
+		tmp = get_next_token(lexer);
+		while (tmp != NULL && !lexer->flg_error)
+		{
+			add_back(&token, tmp);
+			tmp = NULL;
+			tmp = get_next_token(lexer);
+		}
+		if ((token) != NULL)
+			parse = init_parsing(&token, lexer);
+		after_parse(parse, token, lexer);
+		parse = NULL;
+	}
+	free(str);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_lexer	*lexer;
+	t_token	*token;
+	t_parse	*parse;
+	t_env	*env_list;
+	char	*str;
+
+	(void) av;
+	if (ac == 1)
+	{
+		token = NULL;
+		parse = NULL;
+		env_list = setup_env(env);
+		str = NULL;
+		lexer = malloc(sizeof(t_lexer));
+		lexer->_env = &env_list;
+		while (1)
+		{
+			lexer->flg_quote = 0;
+			signal(SIGINT, my_handler);
+			signal(SIGQUIT, SIG_IGN);
+			str = readline("minishell >$ ");
+			init_minishell(lexer, str, parse, token);
+		}
+	}
+	return (0);
 }

@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   herdoc_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schoukou <schoukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 22:29:16 by schoukou          #+#    #+#             */
-/*   Updated: 2022/10/30 17:05:37 by schoukou         ###   ########.fr       */
+/*   Created: 2022/11/04 15:25:21 by schoukou          #+#    #+#             */
+/*   Updated: 2022/11/07 00:17:58 by schoukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-# define TOKEN_H
+#include "header.h"
 
-typedef struct s_token
+int	check_space(char *str)
 {
-	enum
-	{
-		TOKEN_CMD,
-		TOKEN_ARG,
-		TOKEN_PIPE,
-		TOKEN_HERDOC,
-		TOKEN_SLRD,
-		TOKEN_SRRD,
-		TOKEN_DRRD,
-		TOKEN_ERROR,
-		TOKEN_ENV,
-	}	e_type;
-	int				flag_cmg;
-	struct s_token	*next;
-	char			*value;
-	int				rdr_flg;
-}	t_token;
+	int	i;
 
-#endif
+	i = 0;
+	while (str[i] && str[i] != ' ')
+		i++;
+	return (i);
+}
+
+char	*env_search_h(char *str, t_lexer *lexer)
+{
+	t_env	*tmp;
+
+	tmp = (*lexer->_env);
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, str))
+		{
+			free (str);
+			return (ft_strdup(tmp->value));
+		}
+		tmp = tmp->next;
+	}
+	free(str);
+	return (ft_strdup("\0"));
+}
